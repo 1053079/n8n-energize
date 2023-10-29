@@ -14,7 +14,7 @@ import {
 } from 'request';
 
 
-export class CatApi implements INodeType {
+export class Cat implements INodeType {
     description: INodeTypeDescription = {
         displayName: 'Cat',
         name: 'cat',
