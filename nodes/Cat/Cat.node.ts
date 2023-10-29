@@ -74,47 +74,54 @@ export class Cat implements INodeType {
                 default: 'send',
                 noDataExpression: true,
             },
-            // Requires the CHAT ID so we can send it to 
-            // the corresponding Telegram Chat 
-            //     displayName: 'Chat ID',
-            //     name: 'chatId',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'send',
-            //             ],
-            //             resource: [
-            //                 'energyDrink',
-            //             ],
-            //         },
-            //     },
-            //     default: '',
-            //     placeholder: 'Telegram Chat Id..',
-            //     noDataExpression: false,
-            //     description: 'Please give Chat ID so we can do something.',
-            // }, { // Requires the CHAT ID so we can send it to 
-            //     // the corresponding Telegram Chat 
-            //     displayName: 'Text',
-            //     name: 'text',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'send',
-            //             ],
-            //             resource: [
-            //                 'energyDrink',
-            //             ],
-            //         },
-            //     },
-            //     default: '',
-            //     placeholder: '',
-            //     noDataExpression: false,
-            //     description: 'Send a text',
-            // },
+            {
+                displayName: 'Breed',
+                name: 'breed',
+                type: 'string',
+                required: true,
+                displayOptions: {
+                    show: {
+                        operation: [
+                            'send',
+                        ],
+                        resource: [
+                            'sendrandompicture',
+                        ],
+                    },
+                },
+                options: [
+                    {
+                        name: 'Bengal',
+                        value: 'send',
+                        description: 'sends a picture',
+                        action: 'Send a picture',
+                    },
+                ],
+                default: '',
+                placeholder: '',
+                noDataExpression: false,
+                description: 'Please give Chat ID so we can do something.',
+            }, { // Requires the CHAT ID so we can send it to 
+                // the corresponding Telegram Chat 
+                displayName: 'Text',
+                name: 'text',
+                type: 'string',
+                required: true,
+                displayOptions: {
+                    show: {
+                        operation: [
+                            'send',
+                        ],
+                        resource: [
+                            'energyDrink',
+                        ],
+                    },
+                },
+                default: '',
+                placeholder: '',
+                noDataExpression: false,
+                description: 'Send a text',
+            },
 
             { // Displays the Additional Fields in case the user needs it..
                 displayName: 'Additional Fields',
