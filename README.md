@@ -1,14 +1,12 @@
 # N8N - PROJECT
 
 ## Table of Contents
---
-```
-Wat is N8N?
-Installatie
-Functionaliteiten van Cat Node
-Tests
-Handleiding voor het gebruik van Cat Node
-```
+* Wat is N8N?
+* Installatie
+* Functionaliteiten van Cat Node
+* Tests
+* Handleiding voor het gebruik van Cat Node
+
 ### Wat is N8N?
 N8n is een automatisering tool waar jij als gebruiker workflows kan maken om het werkproces te automatiseren. Voor onze werkplaats 5 gaan we een custom Node bouwen waarmee wij iets kunnen toevoegen van waarde voor onze client, CloudShift.
 ### Installatie
