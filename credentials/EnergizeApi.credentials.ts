@@ -5,9 +5,9 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class Energize implements ICredentialType {
-	name = 'telegramApi';
-	displayName = 'Telegram API';
+export class EnergizeApi implements ICredentialType {
+	name = 'EnergizeApi';
+	displayName = 'Energize API';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',

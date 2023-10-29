@@ -28,8 +28,8 @@ export class FriendGridApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://api.sendgrid.com/v3',
-			url: '/marketing/contacts',
+			baseURL: 'https://api.api-ninjas.com/v1/',
+			url: '/randomimage',
 		},
 	};
 }

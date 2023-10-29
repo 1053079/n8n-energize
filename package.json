@@ -31,11 +31,13 @@
     "n8nNodesApiVersion": 1,
     "credentials": [
       "dist/credentials/FriendGridApi.credentials.js",
-      "dist/credentials/TelegramApi.credentials.js"
+      "dist/credentials/NinjasApi.credentials.js",
+      "dist/credentials/EnergizeApi.credentials.js"
     ],
     "nodes": [
       "dist/nodes/FriendGrid/FriendGrid.node.js",
-      "dist/nodes/Energize/Energize.node.js"
+      "dist/nodes/Energize/Energize.node.js",
+      "dist/nodes/Ninjas/Ninjas.node.js"
     ]
   },
   "devDependencies": {

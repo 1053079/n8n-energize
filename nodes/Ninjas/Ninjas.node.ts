@@ -13,110 +13,86 @@ import {
     OptionsWithUri,
 } from 'request';
 
-
-export class Energize implements INodeType {
+export class Ninjas implements INodeType {
     description: INodeTypeDescription = {
-        displayName: 'Energize',
-        name: 'energize',
-        icon: 'file:Energize.svg',
+        // Basic node details will go here
+        displayName: "Ninjas",
+        name: 'Ninjas',
+        icon: 'file:ninjas.svg',
         group: ['transform'],
         version: 1,
-        description: 'Sends a refreshing picture of your favourite Energy Drinks',
+        description: 'Consume Ninjas API',
         defaults: {
-            name: 'Energize',
+            name: 'Ninjas',
         },
         inputs: ['main'],
         outputs: ['main'],
         credentials: [
             {
-                name: 'telegramApi',
+                name: 'NinjasApi',
                 required: true,
             },
         ],
-        // Basic node details will go here
+
         properties: [
             // Resources and operations will go here
-
-            { // The resource for Energize //
+            {
                 displayName: 'Resource',
                 name: 'resource',
                 type: 'options',
                 options: [
                     {
-                        name: 'Energy Drink',
-                        value: 'energyDrink',
+                        name: 'Contact',
+                        value: 'contact',
                     },
                 ],
-                default: 'Energy Drink',
+                default: 'contact',
                 noDataExpression: true,
                 required: true,
+                description: 'Create a new contact',
             },
-            { // Operation indicates the action we want the node to do. 
-                // For now let's give it a SEND action //
+            {
                 displayName: 'Operation',
                 name: 'operation',
                 type: 'options',
                 displayOptions: {
                     show: {
                         resource: [
-                            'energyDrink',
+                            'contact',
                         ],
                     },
                 },
                 options: [
                     {
-                        name: 'Send',
-                        value: 'send',
-                        description: 'sends a picture',
-                        action: 'Send a picture',
+                        name: 'Create',
+                        value: 'create',
+                        description: 'Create a contact',
+                        action: 'Create a contact',
                     },
                 ],
-                default: 'send',
+                default: 'create',
                 noDataExpression: true,
             },
-            // Requires the CHAT ID so we can send it to 
-            // the corresponding Telegram Chat 
-            //     displayName: 'Chat ID',
-            //     name: 'chatId',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'send',
-            //             ],
-            //             resource: [
-            //                 'energyDrink',
-            //             ],
-            //         },
-            //     },
-            //     default: '',
-            //     placeholder: 'Telegram Chat Id..',
-            //     noDataExpression: false,
-            //     description: 'Please give Chat ID so we can do something.',
-            // }, { // Requires the CHAT ID so we can send it to 
-            //     // the corresponding Telegram Chat 
-            //     displayName: 'Text',
-            //     name: 'text',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'send',
-            //             ],
-            //             resource: [
-            //                 'energyDrink',
-            //             ],
-            //         },
-            //     },
-            //     default: '',
-            //     placeholder: '',
-            //     noDataExpression: false,
-            //     description: 'Send a text',
-            // },
-
-            { // Displays the Additional Fields in case the user needs it..
+            {
+                displayName: 'Email',
+                name: 'email',
+                type: 'string',
+                required: true,
+                displayOptions: {
+                    show: {
+                        operation: [
+                            'create',
+                        ],
+                        resource: [
+                            'contact',
+                        ],
+                    },
+                },
+                default: '',
+                placeholder: 'name@email.com',
+                description: 'Primary email for the contact',
+            },
+            {
                 displayName: 'Additional Fields',
                 name: 'additionalFields',
                 type: 'collection',
@@ -125,10 +101,10 @@ export class Energize implements INodeType {
                 displayOptions: {
                     show: {
                         resource: [
-                            'energyDrink',
+                            'contact',
                         ],
                         operation: [
-                            'send',
+                            'create',
                         ],
                     },
                 },
@@ -147,6 +123,7 @@ export class Energize implements INodeType {
                     },
                 ],
             },
+
         ],
     };
     // The execute method will go here
@@ -160,14 +137,14 @@ export class Energize implements INodeType {
 
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
-            if (resource === 'energyDrink') {
-                if (operation === 'send') {
-                    // Get text input
-                    const text = this.getNodeParameter('send', i) as string;
+            if (resource === 'contact') {
+                if (operation === 'create') {
+                    // Get email input
+                    const email = this.getNodeParameter('email', i) as string;
                     // Get additional fields input
                     const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                     const data: IDataObject = {
-                        text,
+                        email,
                     };
 
                     Object.assign(data, additionalFields);
@@ -183,10 +160,10 @@ export class Energize implements INodeType {
                                 data,
                             ],
                         },
-                        uri: 'https://api.telegram.org/bot6485934659:AAHFgh0XGGrm2CIWood8UtHA4X2ewy6XLJw/sendDice?chat_id=-4093381765',
+                        uri: `https://api.api-ninjas.com/v1/randomimage?category=nature`,
                         json: true,
                     };
-                    responseData = await this.helpers.requestWithAuthentication.call(this, 'telegramApi', options);
+                    responseData = await this.helpers.requestWithAuthentication.call(this, 'NinjasApi', options);
                     returnData.push(responseData);
                 }
             }
