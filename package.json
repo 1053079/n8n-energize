@@ -32,12 +32,14 @@
     "credentials": [
       "dist/credentials/FriendGridApi.credentials.js",
       "dist/credentials/NinjasApi.credentials.js",
-      "dist/credentials/EnergizeApi.credentials.js"
+      "dist/credentials/EnergizeApi.credentials.js",
+      "dist/credentials/CatApi.credentials.js"
     ],
     "nodes": [
       "dist/nodes/FriendGrid/FriendGrid.node.js",
       "dist/nodes/Energize/Energize.node.js",
-      "dist/nodes/Ninjas/Ninjas.node.js"
+      "dist/nodes/Ninjas/Ninjas.node.js",
+      "dist/nodes/Cat/Cat.node.js"
     ]
   },
   "devDependencies": {
