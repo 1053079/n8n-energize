@@ -30,7 +30,7 @@ export class Cat implements INodeType {
         credentials: [
             {
                 name: 'catApi',
-                required: false,
+                required: true,
             },
         ],
         // Basic node details will go here
@@ -76,7 +76,7 @@ export class Cat implements INodeType {
                         routing: {
                             request: {
                                 method: 'GET',
-                                url: '/images/search'
+                                url: 'https://api.thecatapi.com/v1/images/search'
                             }
                         }
                     },
@@ -178,9 +178,9 @@ export class Cat implements INodeType {
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
             if (resource === 'randomcatpicture') {
-                if (operation === 'get') {
-                    // Get text input
-                    const text = this.getNodeParameter('get', i) as string;
+                if (operation === 'text') {
+                    // ignore this
+                    const text = this.getNodeParameter('text', i) as string;
                     // Get additional fields input
                     const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                     const data: IDataObject = {
@@ -194,13 +194,13 @@ export class Cat implements INodeType {
                         headers: {
                             'Accept': 'application/json',
                         },
-                        method: 'PUT',
+                        method: 'GET',
                         body: {
                             contacts: [
                                 data,
                             ],
                         },
-                        uri: 'https://api.thecatapi.com/v1/images',
+                        uri: 'https://api.thecatapi.com/v1/images/search',
                         json: true,
                     };
                     responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
