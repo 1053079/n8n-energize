@@ -37,7 +37,7 @@ export class Cat implements INodeType {
         properties: [
             // Resources and operations will go here
 
-            { // The resource for Energize //
+            { // The resources for Cat Node  //
                 displayName: 'Resource',
                 name: 'resource',
                 type: 'options',
@@ -46,8 +46,12 @@ export class Cat implements INodeType {
                         name: 'Random Cat Picture',
                         value: 'randomcatpicture',
                     },
+                    {
+                        name: 'Random Cat Facts',
+                        value: 'randomcatfacts'
+                    },
                 ],
-                default: 'Random Cat Picture',
+                default: 'randomcatpicture',
                 noDataExpression: true,
                 required: true,
             },
@@ -60,18 +64,19 @@ export class Cat implements INodeType {
                     show: {
                         resource: [
                             'randomcatpicture',
+                            'randomcatfacts'
                         ],
                     },
                 },
                 options: [
                     {
-                        name: 'Send',
-                        value: 'send',
-                        description: 'sends a picture',
-                        action: 'Send a picture',
+                        name: 'Get',
+                        value: 'get',
+                        description: 'Get a picture',
+                        action: 'Get a picture',
                     },
                 ],
-                default: 'send',
+                default: 'get',
                 noDataExpression: true,
             },
             {
@@ -82,7 +87,7 @@ export class Cat implements INodeType {
                 displayOptions: {
                     show: {
                         operation: [
-                            'send',
+                            'get',
                         ],
                         resource: [
                             'sendrandompicture',
@@ -101,27 +106,27 @@ export class Cat implements INodeType {
                 placeholder: '',
                 noDataExpression: false,
                 description: 'Please give Chat ID so we can do something.',
-            }, { // Requires the CHAT ID so we can send it to 
-                // the corresponding Telegram Chat 
-                displayName: 'Text',
-                name: 'text',
-                type: 'string',
-                required: true,
-                displayOptions: {
-                    show: {
-                        operation: [
-                            'send',
-                        ],
-                        resource: [
-                            'energyDrink',
-                        ],
-                    },
-                },
-                default: '',
-                placeholder: '',
-                noDataExpression: false,
-                description: 'Send a text',
-            },
+            },  // Requires the CHAT ID so we can send it to 
+            // the corresponding Telegram Chat 
+            //     displayName: 'Text',
+            //     name: 'text',
+            //     type: 'string',
+            //     required: true,
+            //     displayOptions: {
+            //         show: {
+            //             operation: [
+            //                 'send',
+            //             ],
+            //             resource: [
+            //                 'energyDrink',
+            //             ],
+            //         },
+            //     },
+            //     default: '',
+            //     placeholder: '',
+            //     noDataExpression: false,
+            //     description: 'Send a text',
+            // },
 
             { // Displays the Additional Fields in case the user needs it..
                 displayName: 'Additional Fields',
@@ -135,7 +140,7 @@ export class Cat implements INodeType {
                             'randomcatpicture',
                         ],
                         operation: [
-                            'send',
+                            'get',
                         ],
                     },
                 },
@@ -168,9 +173,9 @@ export class Cat implements INodeType {
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
             if (resource === 'randomcatpicture') {
-                if (operation === 'send') {
+                if (operation === 'get') {
                     // Get text input
-                    const text = this.getNodeParameter('send', i) as string;
+                    const text = this.getNodeParameter('get', i) as string;
                     // Get additional fields input
                     const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                     const data: IDataObject = {
