@@ -63,8 +63,7 @@ export class Cat implements INodeType {
                 displayOptions: {
                     show: {
                         resource: [
-                            'randomcatpicture',
-                            'randomcatfacts'
+                            'randomcatpicture'
                         ],
                     },
                 },
@@ -72,8 +71,14 @@ export class Cat implements INodeType {
                     {
                         name: 'Get',
                         value: 'get',
-                        description: 'Get a picture',
                         action: 'Get a picture',
+                        description: 'Get a picture',
+                        routing: {
+                            request: {
+                                method: 'GET',
+                                url: '/images/search'
+                            }
+                        }
                     },
                 ],
                 default: 'get',
