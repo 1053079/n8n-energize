@@ -1,0 +1,242 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "7ccc63fc-bfba-4037-932b-236b87dd600d",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        540
+      ],
+      "webhookId": "7f200d51-e85b-4ff9-ac71-7eddfaae7195",
+      "credentials": {
+        "telegramApi": {
+          "id": "QsoxVWvFymclq7Hb",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "id": "de60a48e-405f-4ac9-a855-9e201869967b",
+      "name": "Cat",
+      "type": "n8n-nodes-energize.cat",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        540
+      ],
+      "credentials": {
+        "catApi": {
+          "id": "9BpCPl24DsrL4uC5",
+          "name": "Cat account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-4093381765",
+        "file": "={{ $json[0].url }}",
+        "additionalFields": {
+          "caption": "={{ $json[0].breeds[0].description }}",
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "id": "e9e125dc-a4d6-414d-ab7a-3d099bf20fb5",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        540
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "QsoxVWvFymclq7Hb",
+          "name": "Telegram account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {},
+      "id": "36782042-a9c0-4dc5-a8c9-fb6a79b0389b",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.message.text }}",
+              "value2": "=sendcatpicture"
+            }
+          ]
+        }
+      },
+      "id": "4bdcdae5-da0b-4fe6-a0d9-ace77cdb8005",
+      "name": "IF Cat",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        540
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a2d6d1d2-4a9d-4ee8-86e8-fc9252d83eae",
+      "name": "Execute Command",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "27f034bc-0a4e-4f27-b10b-09a1562003ad",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        680,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "d29b4aa0-e716-4a03-9840-8d5e39f19ca5",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        900,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "path": "91e52638-1700-4194-9a7b-ae0a1300da73",
+        "options": {}
+      },
+      "id": "2efce116-b3f3-4ad5-8ec8-25c720f9bbb3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        460
+      ],
+      "webhookId": "91e52638-1700-4194-9a7b-ae0a1300da73"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 642099262,
+          "message": {
+            "message_id": 426,
+            "from": {
+              "id": 6518678337,
+              "is_bot": false,
+              "first_name": "Yong Pok",
+              "last_name": "Low",
+              "username": "YxDragon",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": -4093381765,
+              "title": "n8nCapyBara",
+              "type": "group",
+              "all_members_are_administrators": true
+            },
+            "date": 1698718825,
+            "text": "sendcatpicture"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF Cat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cat": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Cat": {
+      "main": [
+        [
+          {
+            "node": "Cat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "dc269f17-0d20-4d1b-a7e9-ecee92f71d4c",
+  "id": "79FVzoFukPJvfaDU",
+  "meta": {
+    "instanceId": "cb07687ccd25b7c9ce8de8c096238212007b42e1068d47f9609fdc54665a6a1a"
+  },
+  "tags": []
+}
