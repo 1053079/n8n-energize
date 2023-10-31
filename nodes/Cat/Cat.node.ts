@@ -3,11 +3,14 @@ import {
 } from 'n8n-core';
 
 import {
-
     INodeExecutionData,
     INodeType,
     INodeTypeDescription,
 } from 'n8n-workflow';
+
+// import {
+// 	LoggerProxy as Logger
+// } from 'n8n-workflow';
 
 import {
     OptionsWithUri,
@@ -63,7 +66,8 @@ export class Cat implements INodeType {
                 required: true,
             },
             { // Operation indicates the action we want the node to do. 
-                // For now let's give it a SEND action //
+                // For now we only have GET which sends a get request to the api. //
+                // The resource is which resource this operation will append itself to.//
                 displayName: 'Operation',
                 name: 'operation',
                 type: 'options',
@@ -185,7 +189,7 @@ export class Cat implements INodeType {
             if (resource === 'randomcatpicture') {
                 if (operation === 'get') {
 
-                    // Make HTTP request according to https://sendgrid.com/docs/api-reference/
+                    // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
                     const options: OptionsWithUri = {
                         headers: {
                             'Accept': 'application/json',
