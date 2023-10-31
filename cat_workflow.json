@@ -13,10 +13,11 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1,
       "position": [
-        1500,
-        540
+        1780,
+        520
       ],
       "webhookId": "7f200d51-e85b-4ff9-ac71-7eddfaae7195",
+      "alwaysOutputData": true,
       "credentials": {
         "telegramApi": {
           "id": "QsoxVWvFymclq7Hb",
@@ -26,6 +27,7 @@
     },
     {
       "parameters": {
+        "displaycatqualities": "yes",
         "additionalFields": {}
       },
       "id": "de60a48e-405f-4ac9-a855-9e201869967b",
@@ -33,8 +35,8 @@
       "type": "n8n-nodes-energize.cat",
       "typeVersion": 1,
       "position": [
-        2220,
-        540
+        2020,
+        520
       ],
       "credentials": {
         "catApi": {
@@ -46,10 +48,10 @@
     {
       "parameters": {
         "operation": "sendPhoto",
-        "chatId": "-4093381765",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "file": "={{ $json[0].url }}",
         "additionalFields": {
-          "caption": "={{ $json[0].breeds[0].description }}",
+          "caption": "=This is a {{ $json[0].breeds[0].name }}, it is also known as  {{ $json[0].breeds[0].alt_names }}\n\n{{ $json[0].breeds[0].description }}\n\nThey have a lifespan of  {{ $json[0].breeds[0].life_span }} years and originate from {{ $json[0].breeds[0].origin }}",
           "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
         }
       },
@@ -58,8 +60,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
       "position": [
-        2520,
-        540
+        2580,
+        440
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -71,98 +73,104 @@
       "continueOnFail": true
     },
     {
-      "parameters": {},
-      "id": "36782042-a9c0-4dc5-a8c9-fb6a79b0389b",
-      "name": "No Operation, do nothing",
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "Logging Data",
+              "stringValue": "={{ $json[0].url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "407115ef-696d-4daa-84ce-1c25161bbfc2",
+      "name": "Logging",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
       "position": [
-        2040,
-        760
-      ]
+        3100,
+        320
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json[0].breeds[0].description }}\n\nThey have a lifespan of  {{ $json[0].breeds[0].life_span }} years and originate from  {{ $json[0].breeds[0].origin }}",
+        "additionalFields": {
+          "reply_to_message_id": "="
+        }
+      },
+      "id": "9b319718-4391-49f3-990b-cd2b871fe178",
+      "name": "Telegram1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        3240,
+        840
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "QsoxVWvFymclq7Hb",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "file": "={{ $json[0].url }}",
+        "additionalFields": {
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "id": "f3c4992e-96ae-421e-b129-b075c2b1704e",
+      "name": "Telegram2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        2580,
+        700
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "QsoxVWvFymclq7Hb",
+          "name": "Telegram account"
+        }
+      },
+      "continueOnFail": true
     },
     {
       "parameters": {
         "conditions": {
-          "boolean": [
+          "string": [
             {
-              "value1": "={{ $json.message.text }}",
-              "value2": "=sendcatpicture"
+              "value1": "={{ $json[0].breeds }}",
+              "operation": "isNotEmpty"
             }
           ]
         }
       },
-      "id": "4bdcdae5-da0b-4fe6-a0d9-ace77cdb8005",
-      "name": "IF Cat",
+      "id": "e9860e74-98c1-488c-a16c-2f723bbc44a3",
+      "name": "Checks for Cat Qualities",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        1740,
-        540
+        2300,
+        520
       ]
-    },
-    {
-      "parameters": {},
-      "id": "a2d6d1d2-4a9d-4ee8-86e8-fc9252d83eae",
-      "name": "Execute Command",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        460,
-        460
-      ]
-    },
-    {
-      "parameters": {},
-      "id": "27f034bc-0a4e-4f27-b10b-09a1562003ad",
-      "name": "When clicking \"Execute Workflow\"",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        680,
-        460
-      ]
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {}
-          ]
-        }
-      },
-      "id": "d29b4aa0-e716-4a03-9840-8d5e39f19ca5",
-      "name": "Schedule Trigger",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        900,
-        460
-      ]
-    },
-    {
-      "parameters": {
-        "path": "91e52638-1700-4194-9a7b-ae0a1300da73",
-        "options": {}
-      },
-      "id": "2efce116-b3f3-4ad5-8ec8-25c720f9bbb3",
-      "name": "Webhook",
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1,
-      "position": [
-        1120,
-        460
-      ],
-      "webhookId": "91e52638-1700-4194-9a7b-ae0a1300da73"
     }
   ],
   "pinData": {
     "Telegram Trigger": [
       {
         "json": {
-          "update_id": 642099262,
+          "update_id": 642099268,
           "message": {
-            "message_id": 426,
+            "message_id": 436,
             "from": {
               "id": 6518678337,
               "is_bot": false,
@@ -177,12 +185,9 @@
               "type": "group",
               "all_members_are_administrators": true
             },
-            "date": 1698718825,
-            "text": "sendcatpicture"
+            "date": 1698761815,
+            "text": "sendcatpicturee"
           }
-        },
-        "pairedItem": {
-          "item": 0
         }
       }
     ]
@@ -192,7 +197,7 @@
       "main": [
         [
           {
-            "node": "IF Cat",
+            "node": "Cat",
             "type": "main",
             "index": 0
           }
@@ -203,25 +208,25 @@
       "main": [
         [
           {
-            "node": "Telegram",
+            "node": "Checks for Cat Qualities",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "IF Cat": {
+    "Checks for Cat Qualities": {
       "main": [
         [
           {
-            "node": "Cat",
+            "node": "Telegram",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "Telegram2",
             "type": "main",
             "index": 0
           }
@@ -233,7 +238,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "dc269f17-0d20-4d1b-a7e9-ecee92f71d4c",
+  "versionId": "3f723b5a-e45b-479c-8244-bde405315eab",
   "id": "79FVzoFukPJvfaDU",
   "meta": {
     "instanceId": "cb07687ccd25b7c9ce8de8c096238212007b42e1068d47f9609fdc54665a6a1a"

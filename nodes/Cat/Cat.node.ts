@@ -83,7 +83,7 @@ export class Cat implements INodeType {
                         name: 'Get',
                         value: 'get',
                         action: 'Get a picture',
-                        description: 'Get a picture',
+                        description: 'Get a cat picture',
                         routing: {
                             request: {
                                 method: 'GET',
@@ -95,34 +95,39 @@ export class Cat implements INodeType {
                 default: 'get',
                 noDataExpression: true,
             },
-            // {
-            //     displayName: 'Breed',
-            //     name: 'breed',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'get',
-            //             ],
-            //             resource: [
-            //                 'sendrandompicture',
-            //             ],
-            //         },
-            //     },
-            //     options: [
-            //         {
-            //             name: 'Bengal',
-            //             value: 'send',
-            //             description: 'sends a picture',
-            //             action: 'Send a picture',
-            //         },
-            //     ],
-            //     default: '',
-            //     placeholder: '',
-            //     noDataExpression: false,
-            //     description: 'Please give Chat ID so we can do something.',
-            // },//  {
+            {
+                displayName: 'Display Cat Qualities',
+                name: 'displaycatqualities',
+                type: 'options',
+                required: true,
+                displayOptions: {
+                    show: {
+                        operation: [
+                            'get',
+                        ],
+                        resource: [
+                            'randomcatpicture',
+                        ],
+                    },
+                }, options: [
+                    {
+                        name: 'Yes',
+                        value: 'yes',
+                        action: 'Show qualities of the cat breed',
+                        description: 'Shows qualities of the cat breed',
+                    }, {
+                        name: 'No',
+                        value: 'no',
+                        action: 'Do not show qualities of the cat breed',
+                        description: 'Does not show the qualities of the cat breed',
+                    }
+                ],
+                default: '',
+                placeholder: '',
+                noDataExpression: false,
+                description: 'Displays additional information regarding the qualities of the breed.',
+            },
+            //  {
             //     displayName: 'Text',
             //     name: 'text',
             //     type: 'string',
@@ -182,13 +187,13 @@ export class Cat implements INodeType {
         let responseData;
         const returnData = [];
         const resource = this.getNodeParameter('resource', 0) as string;
-        const operation = this.getNodeParameter('operation', 0) as string;
+        // const operation = this.getNodeParameter('operation', 0) as string;
+        const qualities = this.getNodeParameter('displaycatqualities', 0) as string;
 
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
             if (resource === 'randomcatpicture') {
-                if (operation === 'get') {
-
+                if (qualities === 'yes') {
                     // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
                     const options: OptionsWithUri = {
                         headers: {
@@ -197,6 +202,21 @@ export class Cat implements INodeType {
                         },
                         method: 'GET',
                         uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                        json: true,
+                    };
+                    responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                    returnData.push(responseData);
+                    console.log('response data is ' + responseData)
+                }
+                else {
+                    // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
+                    const options: OptionsWithUri = {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json header',
+                        },
+                        method: 'GET',
+                        uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=0&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
                         json: true,
                     };
                     responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
