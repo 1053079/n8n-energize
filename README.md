@@ -1,5 +1,7 @@
 # N8N - PROJECT
 
+![Alt text](images\N8N.png)
+
 ## Table of Contents
 * Wat is N8N?
 * Installatie
@@ -20,17 +22,21 @@ n8n start --tunnel
 ```
 Let op! Je moet gebruik maken van --tunnel om gebruik te maken van HTTP Requests binnen N8N.
 ### Functionaliteiten van Cat Node
-Functies van de Node
+#### Functies van de Node
 ```
-Stuur katten foto's
-Keuze tussen alleen een foto of ook descriptie
+1. Stuur foto's van katten
+2. Stuur GIF van katten
+3. Stuur foto's van katten met beschrijving (met verwachte leeftijd en oorsprong)
 ```
-Work in progress?
+
+
+#### Beperkingen van de Node
 ```
-Keuze tussen GIF en foto
-```
-Beperkingen van de Node
-```
+1. De Additional Fields doet niks.
+2. Om toegang te krijgen tot de output van Cat moet je per se [0] achter de Json zetten. Je kunt dus niet simpelweg vanuit de input van de vorige node halen. Nou ja kan wel maar dan moet je wel elke keer [0] achter de Json zetten
+3. Docs gaat nergens naartoe.
+4. Je kan geen bepaalde soort katten zoeken. Het is allemaal random.
+5. Er is geen optie om de lengte en hoogte van de foto's of GIFs te zetten.
 ```
 ### Tests
 To be added
@@ -40,23 +46,23 @@ Als je n8n start --tunnel hebt geactiveerd hebt zal je een localhost hebben met 
 Maak een N8N Workflow aan door de knop 'Add Workflow' te klikken.
 
 
-![Alt text](image.png)
+![Alt text](images/add_workflow.png)
 
 #### Zet Telegram Trigger neer dat reageert op elke Message
 
-![Alt text](image-2.png)
+![Alt text](images/TriggerNode.png)
 
 #### Zoek Cat Node op en voer Credentials in!
 Zoek de Cat Node op en verbind het met de Telegram Trigger.
 Klik op de potlood icoontje naast de 'Cat account' om de credentials in te voeren.
 
-![Alt text](image-3.png)
+![Alt text](images/CatNode.png)
 
 Vul de API Key in om toegang te krijgen tot de Cat API.                 
 ``` 
 live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG
 ```
 
-![Alt text](image-4.png)
+![Alt text](images/APIkey.png)
 
 #### 
