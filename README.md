@@ -1,6 +1,6 @@
 # N8N - PROJECT
 
-![Alt text](images\N8N.png)
+![Alt text](https://blog.n8n.io/content/images/2022/06/og-image-website.png)
 
 ## Table of Contents
 * Wat is N8N?
