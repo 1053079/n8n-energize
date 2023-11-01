@@ -19,9 +19,9 @@ import {
 
 export class Cat implements INodeType {
     description: INodeTypeDescription = {
-        displayName: 'Cat',
+        displayName: 'Cat',  // Displays the name for our n8n node
         name: 'cat',
-        icon: 'file:cat.svg',
+        icon: 'file:cat.svg', // The icon for our custom node
         group: ['transform'],
         version: 1,
         description: 'random cats',
@@ -32,17 +32,10 @@ export class Cat implements INodeType {
         outputs: ['main'],
         credentials: [
             {
-                name: 'catApi',
+                name: 'catApi', // This matches the name set in CatApi.credentials.ts
                 required: true,
             },
         ],
-        // requestDefaults: {
-        //     baseURL: 'https://api.thecatapi.com',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        // },
         // Basic node details will go here
         properties: [
             // Resources and operations will go here
@@ -52,13 +45,13 @@ export class Cat implements INodeType {
                 name: 'resource',
                 type: 'options',
                 options: [
-                    {
+                    { // Default resource that gets a cat picture
                         name: 'Random Cat Picture',
                         value: 'randomcatpicture',
                     },
-                    {
-                        name: 'Random Cat Facts',
-                        value: 'randomcatfacts'
+                    { // second option for random cat gifs
+                        name: 'Random Cat GIFS',
+                        value: 'randomcatgifs'
                     },
                 ],
                 default: 'randomcatpicture',
@@ -74,7 +67,8 @@ export class Cat implements INodeType {
                 displayOptions: {
                     show: {
                         resource: [
-                            'randomcatpicture'
+                            'randomcatpicture',
+                            'randomcatgifs'
                         ],
                     },
                 },
@@ -83,19 +77,19 @@ export class Cat implements INodeType {
                         name: 'Get',
                         value: 'get',
                         action: 'Get a picture',
-                        description: 'Get a cat picture',
-                        routing: {
-                            request: {
-                                method: 'GET',
-                                url: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG'
-                            }
-                        }
+                        description: 'Get a cat picture or gif.',
+                        // routing: {
+                        //     request: {
+                        //         method: 'GET',
+                        //         url: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG'
+                        //     }
+                        // }
                     },
                 ],
                 default: 'get',
                 noDataExpression: true,
             },
-            {
+            { // Shows the Display Cat Qualities option for the Cat Node in N8N
                 displayName: 'Display Cat Qualities',
                 name: 'displaycatqualities',
                 type: 'options',
@@ -127,26 +121,6 @@ export class Cat implements INodeType {
                 noDataExpression: false,
                 description: 'Displays additional information regarding the qualities of the breed.',
             },
-            //  {
-            //     displayName: 'Text',
-            //     name: 'text',
-            //     type: 'string',
-            //     required: true,
-            //     displayOptions: {
-            //         show: {
-            //             operation: [
-            //                 'get',
-            //             ],
-            //             resource: [
-            //                 'randomcatpicture',
-            //             ],
-            //         },
-            //     },
-            //     default: '',
-            //     placeholder: '',
-            //     noDataExpression: false,
-            //     description: 'Send a text',
-            // },
             { // Displays the Additional Fields in case the user needs it..
                 displayName: 'Additional Fields',
                 name: 'additionalFields',
@@ -180,6 +154,7 @@ export class Cat implements INodeType {
             },
         ],
     };
+
     // The execute method will go here
     async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
         // Handle data coming from previous nodes
@@ -188,12 +163,13 @@ export class Cat implements INodeType {
         const returnData = [];
         const resource = this.getNodeParameter('resource', 0) as string;
         // const operation = this.getNodeParameter('operation', 0) as string;
-        const qualities = this.getNodeParameter('displaycatqualities', 0) as string;
 
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
             if (resource === 'randomcatpicture') {
+                const qualities = this.getNodeParameter('displaycatqualities', 0) as string;
                 if (qualities === 'yes') {
+                    // if 'Display Cat Qualities' is set to Yes 
                     // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
                     const options: OptionsWithUri = {
                         headers: {
@@ -207,9 +183,11 @@ export class Cat implements INodeType {
                     responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
                     returnData.push(responseData);
                     console.log('response data is ' + responseData)
-                }
+                } // If set to No it will have breeds as an empty array
+                // This allows us to set an IF condition in N8N that checks whether or not the array is empty
+                // if array is empty it will redirect the path and only show a picture.
                 else {
-                    // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
+
                     const options: OptionsWithUri = {
                         headers: {
                             'Accept': 'application/json',
@@ -223,6 +201,36 @@ export class Cat implements INodeType {
                     returnData.push(responseData);
                     console.log('response data is ' + responseData)
                 }
+            } // If user picks randomcatgifs this will happen
+            // Only thing we change in the uri is change the query parameters
+            // mime_types=gif only sends back cat gifs rather than pictures.
+            else if (resource === 'randomcatgifs') {
+                const options: OptionsWithUri = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json header',
+                    },
+                    method: 'GET',
+                    uri: 'https://api.thecatapi.com/v1/images/search?mime_types=gif&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                    json: true,
+                };
+                responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                returnData.push(responseData);
+                console.log('response data is ' + responseData)
+            } // else code just defaults to randomcatpicture.. same code
+            else {
+                const options: OptionsWithUri = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json header',
+                    },
+                    method: 'GET',
+                    uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                    json: true,
+                };
+                responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                returnData.push(responseData);
+                console.log('response data is ' + responseData)
             }
         }
         // Map data to n8n data structure

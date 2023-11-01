@@ -27,8 +27,7 @@
     },
     {
       "parameters": {
-        "displaycatqualities": "yes",
-        "additionalFields": {}
+        "resource": "randomcatgifs"
       },
       "id": "de60a48e-405f-4ac9-a855-9e201869967b",
       "name": "Cat",
@@ -56,12 +55,12 @@
         }
       },
       "id": "e9e125dc-a4d6-414d-ab7a-3d099bf20fb5",
-      "name": "Telegram",
+      "name": "Send Cat Picture + Description",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
       "position": [
-        2580,
-        440
+        2680,
+        360
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -74,51 +73,6 @@
     },
     {
       "parameters": {
-        "fields": {
-          "values": [
-            {
-              "name": "Logging Data",
-              "stringValue": "={{ $json[0].url }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "407115ef-696d-4daa-84ce-1c25161bbfc2",
-      "name": "Logging",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.1,
-      "position": [
-        3100,
-        320
-      ],
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "={{ $json[0].breeds[0].description }}\n\nThey have a lifespan of  {{ $json[0].breeds[0].life_span }} years and originate from  {{ $json[0].breeds[0].origin }}",
-        "additionalFields": {
-          "reply_to_message_id": "="
-        }
-      },
-      "id": "9b319718-4391-49f3-990b-cd2b871fe178",
-      "name": "Telegram1",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.1,
-      "position": [
-        3240,
-        840
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "QsoxVWvFymclq7Hb",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "operation": "sendPhoto",
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "file": "={{ $json[0].url }}",
@@ -127,12 +81,38 @@
         }
       },
       "id": "f3c4992e-96ae-421e-b129-b075c2b1704e",
-      "name": "Telegram2",
+      "name": "Send Cat Picture",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
       "position": [
-        2580,
-        700
+        2720,
+        960
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "QsoxVWvFymclq7Hb",
+          "name": "Telegram account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "file": "={{ $json[0].url }}",
+        "additionalFields": {
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "id": "97e67fd7-b85b-45b9-99ea-b7171242eaa1",
+      "name": "Send Cat GIF",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [
+        2720,
+        720
       ],
       "alwaysOutputData": true,
       "credentials": {
@@ -148,19 +128,59 @@
         "conditions": {
           "string": [
             {
-              "value1": "={{ $json[0].breeds }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "ead70be1-eac4-470c-97cc-098c6848999f",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[0].breeds[0] }}",
               "operation": "isNotEmpty"
             }
           ]
         }
       },
-      "id": "e9860e74-98c1-488c-a16c-2f723bbc44a3",
-      "name": "Checks for Cat Qualities",
+      "id": "703d203c-17b4-4fc9-89d5-cd37c22349ba",
+      "name": "Is Breeds Array empty?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        2300,
+        2240,
         520
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json[0].url }}",
+              "operation": "regex",
+              "value2": "gif"
+            }
+          ]
+        }
+      },
+      "id": "102f425c-fdf8-4d0e-9c5e-c17531df7831",
+      "name": "Url contain GIF or JPG?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        860
       ]
     }
   ],
@@ -208,25 +228,43 @@
       "main": [
         [
           {
-            "node": "Checks for Cat Qualities",
+            "node": "Is Breeds Array empty?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Checks for Cat Qualities": {
+    "Is Breeds Array empty?": {
       "main": [
         [
           {
-            "node": "Telegram",
+            "node": "Send Cat Picture + Description",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Telegram2",
+            "node": "Url contain GIF or JPG?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Url contain GIF or JPG?": {
+      "main": [
+        [
+          {
+            "node": "Send Cat GIF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Cat Picture",
             "type": "main",
             "index": 0
           }
@@ -238,7 +276,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3f723b5a-e45b-479c-8244-bde405315eab",
+  "versionId": "beb0797e-eb66-4ca0-82b9-94df2c27eaa3",
   "id": "79FVzoFukPJvfaDU",
   "meta": {
     "instanceId": "cb07687ccd25b7c9ce8de8c096238212007b42e1068d47f9609fdc54665a6a1a"
