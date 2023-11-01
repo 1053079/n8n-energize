@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 5",
+  "name": "Cat Workflow",
   "nodes": [
     {
       "parameters": {
@@ -27,7 +27,8 @@
     },
     {
       "parameters": {
-        "resource": "randomcatgifs"
+        "displaycatqualities": "yes",
+        "additionalFields": {}
       },
       "id": "de60a48e-405f-4ac9-a855-9e201869967b",
       "name": "Cat",
@@ -39,7 +40,7 @@
       ],
       "credentials": {
         "catApi": {
-          "id": "9BpCPl24DsrL4uC5",
+          "id": "Bw0uYKrTmNzZLuYB",
           "name": "Cat account"
         }
       }
@@ -59,7 +60,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.1,
       "position": [
-        2680,
+        2720,
         360
       ],
       "alwaysOutputData": true,
@@ -122,25 +123,6 @@
         }
       },
       "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "string": [
-            {
-              "operation": "isEmpty"
-            }
-          ]
-        }
-      },
-      "id": "ead70be1-eac4-470c-97cc-098c6848999f",
-      "name": "IF",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 1,
-      "position": [
-        460,
-        460
-      ]
     },
     {
       "parameters": {
@@ -276,7 +258,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "beb0797e-eb66-4ca0-82b9-94df2c27eaa3",
+  "versionId": "37d5e98b-3915-4fa5-95cf-a4a1f07d243a",
   "id": "79FVzoFukPJvfaDU",
   "meta": {
     "instanceId": "cb07687ccd25b7c9ce8de8c096238212007b42e1068d47f9609fdc54665a6a1a"

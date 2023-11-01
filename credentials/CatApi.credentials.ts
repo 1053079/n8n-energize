@@ -21,7 +21,6 @@ export class CatApi implements ICredentialType {
         type: 'generic',
         properties: {
             headers: {
-                'x-api-key': 'live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
                 Authorization: '=Bearer {{$credentials.apiKey}}',
             },
         },

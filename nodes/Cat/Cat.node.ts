@@ -8,13 +8,15 @@ import {
     INodeTypeDescription,
 } from 'n8n-workflow';
 
-// import {
-// 	LoggerProxy as Logger
-// } from 'n8n-workflow';
+import {
+    LoggerProxy as Logger
+} from 'n8n-workflow';
 
 import {
     OptionsWithUri,
 } from 'request';
+
+Logger.init(Logger)
 
 
 export class Cat implements INodeType {
@@ -162,15 +164,74 @@ export class Cat implements INodeType {
         let responseData;
         const returnData = [];
         const resource = this.getNodeParameter('resource', 0) as string;
+        const logger = Logger
+        Logger.init(Logger)
+
         // const operation = this.getNodeParameter('operation', 0) as string;
 
         // For each item, make an API call to create a contact
         for (let i = 0; i < items.length; i++) {
             if (resource === 'randomcatpicture') {
                 const qualities = this.getNodeParameter('displaycatqualities', 0) as string;
-                if (qualities === 'yes') {
-                    // if 'Display Cat Qualities' is set to Yes 
-                    // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
+                if (qualities === 'yes')
+                    try {
+                        // if 'Display Cat Qualities' is set to Yes 
+                        // Make HTTP request according to https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t
+                        const options: OptionsWithUri = {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json header',
+                            },
+                            method: 'GET',
+                            uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                            json: true,
+                        };
+                        responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                        returnData.push(responseData);
+
+                    } catch (error) {
+                        logger.info('API request for cat  pictures with qualities has failed ' + error)
+                    } // If set to No it will have breeds as an empty array
+                // This allows us to set an IF condition in N8N that checks whether or not the array is empty
+                // if array is empty it will redirect the path and only show a picture.
+                else
+                    try {
+                        const options: OptionsWithUri = {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json header',
+                            },
+                            method: 'GET',
+                            uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=0&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                            json: true,
+                        };
+                        responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                        returnData.push(responseData);
+                    }
+                    catch (error) {
+                        logger.info('API request for Cat Picture has failed ' + error)
+                    }
+            } // If user picks randomcatgifs this will happen
+            // Only thing we change in the uri is change the query parameters
+            // mime_types=gif only sends back cat gifs rather than pictures.
+            else if (resource === 'randomcatgifs')
+                try {
+                    const options: OptionsWithUri = {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json header',
+                        },
+                        method: 'GET',
+                        uri: 'https://api.thecatapi.com/v1/images/search?mime_types=gif&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                        json: true,
+                    };
+                    responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
+                    returnData.push(responseData);
+                } catch (error) {
+                    logger.info('API request to get Cat GIFS has failed ' + error)
+                } // else code just defaults to randomcatpicture.. same code
+            else
+                try {
                     const options: OptionsWithUri = {
                         headers: {
                             'Accept': 'application/json',
@@ -182,56 +243,10 @@ export class Cat implements INodeType {
                     };
                     responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
                     returnData.push(responseData);
-                    console.log('response data is ' + responseData)
-                } // If set to No it will have breeds as an empty array
-                // This allows us to set an IF condition in N8N that checks whether or not the array is empty
-                // if array is empty it will redirect the path and only show a picture.
-                else {
-
-                    const options: OptionsWithUri = {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json header',
-                        },
-                        method: 'GET',
-                        uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=0&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
-                        json: true,
-                    };
-                    responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
-                    returnData.push(responseData);
-                    console.log('response data is ' + responseData)
                 }
-            } // If user picks randomcatgifs this will happen
-            // Only thing we change in the uri is change the query parameters
-            // mime_types=gif only sends back cat gifs rather than pictures.
-            else if (resource === 'randomcatgifs') {
-                const options: OptionsWithUri = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json header',
-                    },
-                    method: 'GET',
-                    uri: 'https://api.thecatapi.com/v1/images/search?mime_types=gif&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
-                    json: true,
-                };
-                responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
-                returnData.push(responseData);
-                console.log('response data is ' + responseData)
-            } // else code just defaults to randomcatpicture.. same code
-            else {
-                const options: OptionsWithUri = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json header',
-                    },
-                    method: 'GET',
-                    uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
-                    json: true,
-                };
-                responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
-                returnData.push(responseData);
-                console.log('response data is ' + responseData)
-            }
+                catch (error) {
+                    logger.info('API request for cat  pictures with qualities has failed ' + error)
+                }
         }
         // Map data to n8n data structure
         return [this.helpers.returnJsonArray(returnData)];
