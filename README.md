@@ -95,12 +95,12 @@ Jaa we zijn er bij de Tests. Om de Cat Node te testen kunnen we gebruik maken va
 Download de Cat.Workflow.Json van de Github hier en ga vervolgens terug naar je Workflow.
 Helemaal rechtsbovenaan zie je drie stippeltjes. Klik erop en kies 'Import from File'
 
-![Alt text](image-4.png)
+![Alt text](images/Importeer.png)
 
 ## Test Workflow
 Als het goed is ziet het er zo uit.
 
-![Alt text](image-2.png)
+![Alt text](images/CatWorkFlow.png)
 
 Druk op de grijze balk rechtsbovenaan om de workflow te activeren. Dit moeten we doen anders kunnen we geen data halen uit Telegram.
 Normaliter moet je ook eerst je eigen Telegram account hebben met een BOT access token en die invullen als credentials voor Telegram. Zo kan die namelijk jou en jouw chat ID vinden.
@@ -108,54 +108,54 @@ In onze voorbeeld heb ik er al 1.
 Als er gedrukt wordt op 'Listen for an event' en ik een message intypt in de Chat Group ontvangt de Telegram Trigger gegevens over mij zoals naam, id en in welke chat id ik zit. Dit hebben we nodig.
 Dit gepinde informatie staat trouwens in de Cat_Workflow.Json..
 
-![Alt text](image-5.png)
+![Alt text](images/TelegramTriggerOutput.png)
 
 ### Tijd om de Cat Node te testen
 ## Cat Gifs
 Klik op de Cat Node en je kan zien dat je kan kiezen tussen 2 Resources. Cat Gifs en Cat Pictures. We kiezen als voorbeeld eerst 'Cat Gifs' en execute de Cat Node.
 
-![Alt text](image-6.png)
+![Alt text](images/CatWithGIFOutput.png)
 
 In de output kan je zien dat er in de url een gif uitkomt. We gaan eventjes terug naar de Workflow zelf en dan drukken we op 'Execute Workflow'.
 
-![Alt text](image-7.png)
+![Alt text](images/CatWithGIFExecute.png)
 
-![Alt text](image-9.png)
+![Alt text](images/CatWithGIFTest.png)
 
-![Alt text](image-8.png)
+![Alt text](images/CatWithGIF.png)
 
 Top het werkt! Het reageert standaard op alle berichten dus hoeft niet alleen op 'sendcatpicture' of iets.. maar de optie is er wel in de n8n workflow om dat te filteren gebaseerd op de tekst die gegeven wordt in Telegram. Dat kan je bereiken met IF en SWITCH nodes.
 
 ## Cat Pictures 
 We gaan nu kijken naar de 'Cat Pictures'. We veranderen de Resource naar 'Random Cat Picture' en kiezen bij Display Cat Qualities de keuze 'No' we willen alleen de foto!
 
-![Alt text](image-12.png)
+![Alt text](images/CatWithPictureOutput.png)
 
-![Alt text](image-13.png)
+![Alt text](images/CatWithPictureTest.png)
 
-![Alt text](image-14.png)
+![Alt text](images/CatWithPicture.png)
 
 Toppie het gaat de juiste route op.
 
 ## Cat Pictures met Description
 
-![Alt text](image-15.png)
+![Alt text](images/CatWithDescriptionOutput.png)
 
-![Alt text](image-16.png)
+![Alt text](images/CatWithDescriptionTest.png)
 
-![Alt text](image-17.png)
+![Alt text](/images/CatWithDescription.png)
 
 Hier heb je dan een kattenfoto met naam, beschrijving, leeftijdverwachting en oorsprong!
 
 # Hoe werkt de logica in onze Workflow?
 In de Cat API krijgen we 'Empty Arrays' terug bij de foto's en gifs. Maar bij de foto's met descriptie is die *niet* leeg. We zetten dus een if condition dat als de array niet empty is dat het naar de bovenste route gaat.
 
-![Alt text](flowwchart.png)
+![Alt text](images/flowwchart.png)
 
-![Alt text](image-18.png)
+![Alt text](images/BreedsArray.png)
 
 Als de Array empty is gaat het naar een nieuwe IF node waar we een Regex match neerzetten om te kijken of het een gif is of niet.
 Als het wel GIF in de url bevat gaat het naar de middenste route. Anders gaat het naar de onderste route.
 
-![Alt text](image-19.png)
+![Alt text](images/RegexMatchGif.png)
 
