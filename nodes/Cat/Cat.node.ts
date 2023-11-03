@@ -41,7 +41,6 @@ export class Cat implements INodeType {
         // Basic node details will go here
         properties: [
             // Resources and operations will go here
-
             { // The resources for Cat Node  //
                 displayName: 'Resource',
                 name: 'resource',
@@ -127,7 +126,7 @@ export class Cat implements INodeType {
                         name: 'Yes',
                         value: 'yes',
                         action: 'Show qualities of the cat breed',
-                        description: 'Shows qualities of the cat breed', 
+                        description: 'Shows qualities of the cat breed',
                     }, {
                         name: 'No',
                         value: 'no',
