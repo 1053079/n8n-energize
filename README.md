@@ -47,7 +47,7 @@ Maak een N8N Workflow aan door de knop 'Add Workflow' te klikken.
 #### **Zet Telegram Trigger neer dat reageert op elke Message**
 Eenmaal binnen je Workflow zie je meteen een + knop met als tekst 'Add first step...'.       
 Druk erop en in de zoekbalk typ je 'Telegram'.       
-Je hebt dan 9 keuze uit 9 Triggers. Voor deze voorbeeld kiezen we 'On Message'
+Je hebt dan keuze uit 9 Triggers. Voor deze voorbeeld kiezen we 'On Message'
 
 ![Alt text](images/TriggerNode.png)
 
@@ -89,4 +89,5 @@ Random Cat GIFS geeft de user de mogelijkheid om katten GIFS te sturen in plaats
 ![Alt text](images/GIFS.png)
 
 # **Tests**
-To be added
+Jaa we zijn er bij de Tests. Om de Cat Node te testen kunnen we gebruik maken van de standaard 'Cat_Workflow.Json' die je al kan vinden in de Github Repository hier.
+## Importeer de Workflow.Json

@@ -56,8 +56,8 @@ export class Cat implements INodeType {
                         value: 'randomcatgifs'
                     },
                 ],
-                default: 'randomcatpicture',
-                noDataExpression: true,
+                default: 'randomcatpicture', // default settings
+                noDataExpression: true, // allows usage of Expression in N8N.
                 required: true,
             },
             { // Operation indicates the action we want the node to do. 
@@ -67,25 +67,42 @@ export class Cat implements INodeType {
                 name: 'operation',
                 type: 'options',
                 displayOptions: {
-                    show: {
+                    show: { // appends the Operation to Random Cat Picture
                         resource: [
                             'randomcatpicture',
-                            'randomcatgifs'
                         ],
                     },
-                },
+                }, // the actions and descriptions of the nodes.
                 options: [
                     {
                         name: 'Get',
                         value: 'get',
-                        action: 'Get a picture',
-                        description: 'Get a cat picture or gif.',
-                        // routing: {
-                        //     request: {
-                        //         method: 'GET',
-                        //         url: 'https://api.thecatapi.com/v1/images/search?has_breeds=1&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG'
-                        //     }
-                        // }
+                        action: 'Get a cat picture', // Shows the action in the list of the node
+                        description: 'Get a picture of a cat', // Description of the action.
+                    },
+                ],
+                default: 'get',
+                noDataExpression: true,
+            },
+            { // Operation indicates the action we want the node to do. 
+                // For now we only have GET which sends a get request to the api. //
+                // The resource is which resource this operation will append itself to.//
+                displayName: 'Operation',
+                name: 'operation',
+                type: 'options',
+                displayOptions: {
+                    show: { // appends the Operation to Random Cat GIFS
+                        resource: [
+                            'randomcatgifs',
+                        ],
+                    },
+                }, // the actions and descriptions of the nodes.
+                options: [
+                    {
+                        name: 'Get',
+                        value: 'get',
+                        action: 'Get a cat GIF', // Shows the action in the list of the node
+                        description: 'Get a GIF of a cat', // Description of the action.
                     },
                 ],
                 default: 'get',
@@ -98,24 +115,24 @@ export class Cat implements INodeType {
                 required: true,
                 displayOptions: {
                     show: {
-                        operation: [
+                        operation: [ // options you can choose from operation
                             'get',
                         ],
-                        resource: [
+                        resource: [ // Appends this to random cat picture only.
                             'randomcatpicture',
                         ],
                     },
-                }, options: [
+                }, options: [ // The options that you can choose from in Display Cat Qualities
                     {
                         name: 'Yes',
                         value: 'yes',
                         action: 'Show qualities of the cat breed',
-                        description: 'Shows qualities of the cat breed',
+                        description: 'Shows qualities of the cat breed', 
                     }, {
                         name: 'No',
                         value: 'no',
                         action: 'Do not show qualities of the cat breed',
-                        description: 'Does not show the qualities of the cat breed',
+                        description: 'Do not show the qualities of the cat breed',
                     }
                 ],
                 default: '',
