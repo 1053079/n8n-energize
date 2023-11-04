@@ -90,27 +90,26 @@ Random Cat GIFS geeft de user de mogelijkheid om katten GIFS te sturen in plaats
 ![Shows a picture of the Cat Node in action.](images/Handleiding/GIFS.png)
 
 #### Druk op de plus knop naast de Cat Node en verbind het met Telegram
-Er is keuze uit 23 Actions.. pak voor een voorbeeld 'Send a photo message'
+Er is keuze uit 23 Actions.. voor deze voorbeeld gebruiken we 'Send a Photo Message'
 
+![Photo showing the 23 actions of a Telegram Node.](/images/Handleiding/TelegramActions.png)
 
-![Photo showing the 23 actions of a Telegram Node.](image.png)
+Voor deze stap zie je dat je de parameters nodig hebt van Telegram's Chat ID en de url van de Cat Node.
 
-Voor deze stap zie je dat je de parameter nodig hebt van Telegram's Chat ID en de url van de Cat Node.
+![Photo of the Telegram Node parameters in N8N.](/images/Handleiding/NeedParameters.png)
 
-![Photo of the Telegram Node parameters in N8N.](image-3.png)
+Om de Telegram Chat ID te krijgen moet je zelf via Telegram een account aanmaken en via BotFather een Bot Access Token aanvragen (https://core.telegram.org/api). Die kan je dan verbinden met de Telegram Credentials API in N8N. Nodig je Bot uit in je Group Chat en vervolgens typ je een bericht in de Chat. Let wel op dat de Workflow 'Active' moet zijn. Die kan je rechtsbovenaan de Workflow vinden.
 
-Om de Telegram Chat ID te krijgen moet je zelf via Telegram een account aanmaken en via BotFather een Bot Access Token aanvragen (https://core.telegram.org/api). Die kan je dan verbinden met de Telegram Credentials API in N8N. Nodig je Bot uit in je Group Chat en vervolgens typ je een bericht in de Chat. Let wel op dat de Workflow 'Active' moet zijn. Die kan je rechtsbovenaan de Workflow vinden. Grijs is inactive en groen is active.
-
-![Telegram output after listening to an event in N8N.](image-1.png)
+![Telegram output after listening to an event in N8N.](/images/Handleiding/HandleidingOutput.png)
 
 Als de Listening Event succesvol is gegaan heb je de Input data ervan en kan je die doorgeven aan de laatste Telegram Node. Via de input links kan je de informatie doorgeven. Je kan op de informatie klikken en als het ware overdragen naar de parameters.
-Let wel op dat bij Cat Node dat je een [0] achter de Json zet (Zie voorbeeld).
+Let wel op dat bij Cat Node dat je een [0] achter de Json zet (Zie voorbeeld hieronder).
 
-![Inserting data into the Telegram Node by connecting our input data to it.](image-2.png)
+![Inserting data into the Telegram Node by connecting our input data to it.](/images/Handleiding/TelegramParameters.png)
 
-![Alt text](image-5.png)
+![Executing the Workflow in N8N is successful.](/images/Handleiding/HandleidingWorkflow.png)
 
-![Alt text](image-6.png)
+![Succesfully sent a cat picture via N8N to Telegram.](/images/Handleiding/HandleidingTelegramCat.png)
 # **Tests**
 ## Importeer de Workflow.Json
 Download de Cat.Workflow.Json van de Github hier en ga vervolgens terug naar je Workflow.
