@@ -218,7 +218,7 @@ export class Cat implements INodeType {
                                 'Content-Type': 'application/json header',
                             },
                             method: 'GET',
-                            uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=0&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
+                            uri: 'https://api.thecatapi.com/v1/images/search?has_breeds=0&mime_types=jpg,png&api_key=live_rTcHLiRJhVBwWzluR6il6QLmjQ0640BMOzomWz5mb3EQ7NQFJYxyxtIvcdUB5RMG',
                             json: true,
                         };
                         responseData = await this.helpers.requestWithAuthentication.call(this, 'catApi', options);
