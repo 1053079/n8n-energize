@@ -98,7 +98,7 @@ Voor deze stap zie je dat je de parameters nodig hebt van Telegram's Chat ID en 
 
 ![Photo of the Telegram Node parameters in N8N.](/images/Handleiding/NeedParameters.png)
 
-Om de Telegram Chat ID te krijgen moet je zelf via Telegram een account aanmaken en via BotFather een Bot Access Token aanvragen (https://core.telegram.org/api). Die kan je dan verbinden met de Telegram Credentials API in N8N. Nodig je Bot uit in je Group Chat en vervolgens typ je een bericht in de Chat. Let wel op dat de Workflow 'Active' moet zijn. Die kan je rechtsbovenaan de Workflow vinden.
+Om de Telegram Chat ID te krijgen moet je zelf via Telegram een account aanmaken en via BotFather een Bot Access Token aanvragen (https://core.telegram.org/api). Die kan je dan verbinden met de Telegram Credentials API in N8N. Nodig je Bot uit in je Group Chat en typ in de chat. Zorg wel ervoor dat je eerst Listening For event hebt geklikt bij de Telegram Trigger Node en ook dat de Workflow op Active staat (die staat rechtsbovenaan in de Workflow).
 
 ![Telegram output after listening to an event in N8N.](/images/Handleiding/HandleidingOutput.png)
 
