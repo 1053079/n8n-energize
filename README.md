@@ -9,6 +9,7 @@
 * **Handleiding voor het gebruik van Cat Node**
 * **Tests**
 * **Hoe werkt de logica in onze Workflow?**
+* **Beperkingen**
 
 ### **Wat is N8N?**
 N8n is een automatisering tool waar jij als gebruiker workflows kan maken om het werkproces te automatiseren. Voor onze werkplaats 5 gaan we een custom Node bouwen waarmee wij iets kunnen toevoegen van waarde voor onze client, CloudShift.
@@ -28,14 +29,6 @@ n8n start --tunnel
 1. Stuur foto's van katten
 2. Stuur GIF van katten
 3. Stuur foto's van katten met beschrijving (met verwachte leeftijd en oorsprong)
-```
-#### **Beperkingen van de Node**
-```
-1. De Additional Fields doet niks.
-2. Om toegang te krijgen tot de output van Cat moet je per se [0] achter de Json zetten. Je kunt dus niet simpelweg vanuit de input van de vorige node halen. Nou ja kan wel maar dan moet je wel elke keer [0] achter de Json zetten
-3. Docs gaat nergens naartoe.
-4. Je kan geen bepaalde soort katten zoeken. Het is allemaal random.
-5. Er is geen optie om de lengte en hoogte van de foto's of GIFs te zetten.
 ```
 # **Handleiding voor het gebruik van Cat Node**
 #### **Maak een N8N Workflow aan**
@@ -178,4 +171,16 @@ Als de Array empty is gaat het naar een nieuwe IF node waar we een Regex match n
 Als het wel GIF in de url bevat gaat het naar de middenste route. Anders gaat het naar de onderste route.
 
 ![Photo of an IF node in N8N with Regex Match to check whether gif is present in the url](images/Logica/RegexMatchGif.png)
+
+# **Beperkingen van de Node**
+1. **De Additional Fields doet niks.**     
+Ik heb geen idee wat ik met de Additional Fields moet doen.
+2. **Om toegang te krijgen tot de output van Cat moet je per se [0] achter de Json zetten. Je kunt dus niet simpelweg vanuit de input van de vorige node halen. Nou ja kan wel maar dan moet je wel elke keer [0] achter de Json zetten.**    
+Ja dit is irritant en ik denk dat het komt omdat de Breeds array niet altijd iets bevat. Dus je hebt Breeds_ID = 0 of 1 in de query parameter van The Cat Api. De workaround is dat we gewoon elke keer [0] achter de json zet.. het is wat het is.
+3. **Docs gaat nergens naartoe.**         
+Ik ga eerlijk zijn ik heb geen idee waar ik de docs zou aanpassen.. en we hosten dit lokaal en niet op het internet dus hier komen we niet aan toe.
+4. **Je kan geen bepaalde soort katten zoeken. Het is allemaal random.**           
+Het zou veel werk zijn om uit te zoeken hoeveel ras katten er zijn in de Cat Api database. Overigens is het ras afgekort tot 4 letters en niet gewoon 'Siamese' als voorbeeld.
+5. **Er is geen optie om de lengte en hoogte van de foto's of GIFs te zetten.**           
+IS er niet.. maar misschien wel mogelijk om de users een input field te geven waar ze de max lengte en hoogte kunnen aangeven. Dat is mijn insteek maar of het mogelijk is dat zien we wel...
 
